@@ -52,6 +52,11 @@ namespace PresentSir.Droid.Activities
                 var myself = PreferenceManager.Instance.GetJsonEntryAs<LoginResponse>("cred").Details;
 
                 var dialog = new RegisterForClassDialog((int)myself["Id"]);
+                dialog.OnStudentRegisterForClass += (s, registeredCourse) =>
+                {
+                    HideEmptyState();
+                    collection.Add(registeredCourse);
+                };
 
                 dialog.Show(SupportFragmentManager, string.Empty);
             };

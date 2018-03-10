@@ -1,3 +1,4 @@
+using Alansa.Droid.Activities;
 using Alansa.Droid.Collections;
 using Alansa.Droid.Extensions;
 using Android.App;
@@ -14,8 +15,8 @@ using System;
 
 namespace PresentSir.Droid.Activities
 {
-    [Activity(Label = "AttendanceDetailActivity")]
-    public class AttendanceDetailActivity : Activity
+    [Activity(Label = "Attendance details")]
+    public class AttendanceDetailActivity : BaseActivity
     {
         private int classId;
         private ProgressBar loadingCircle;
@@ -23,6 +24,8 @@ namespace PresentSir.Droid.Activities
         private TextView dateLbl;
         private DateTime selectedDate;
         private View emptyState;
+
+        public override int LayoutResource => Resource.Layout.activity_attendance_details;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -67,18 +70,25 @@ namespace PresentSir.Droid.Activities
 
         private void ShowEmptyState()
         {
-            throw new NotImplementedException();
+            emptyState.Visibility = ViewStates.Visible;
+            recyclerView.Visibility = ViewStates.Gone;
+        }
+
+        private void HideEmptyState()
+        {
+            emptyState.Visibility = ViewStates.Gone;
+            recyclerView.Visibility = ViewStates.Visible;
         }
 
         private void SetupDateLabel()
         {
-            dateLbl.Text = DateTime.Now.ToReadableTimeStamp();
+            dateLbl.Text = DateTime.Now.ToPrettyDate();
 
             dateLbl.Click += delegate
             {
                 var dialog = new DatePickerDialog(this, (sender, e) =>
                 {
-                    dateLbl.Text = e.Date.ToReadableTimeStamp();
+                    dateLbl.Text = e.Date.ToPrettyDate();
                     selectedDate = e.Date;
                 }, DateTime.Now.Year, DateTime.Now.Month - 1, DateTime.Now.Day);
                 dialog.Show();

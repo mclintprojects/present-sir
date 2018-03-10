@@ -6,7 +6,7 @@
     android:layout_height="?attr/actionBarSize"
     android:background="@color/colorPrimary"
     android:minHeight="?attr/actionBarSize"
-    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    app:theme="@style/ThemeOverlay.AppCompat.Light"
     app:layout_scrollFlags="scroll|enterAlways"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-    android:textColorPrimary="#ffffff" />
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    android:textColorPrimary="#000" />

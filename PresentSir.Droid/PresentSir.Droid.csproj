@@ -136,6 +136,7 @@
     <Compile Include="Models\Attendance.cs" />
     <Compile Include="Models\Class.cs" />
     <Compile Include="Models\GetAttendanceResponse.cs" />
+    <Compile Include="Models\GetClassesResponse.cs" />
     <Compile Include="Models\GetTeacherCoursesResponse.cs" />
     <Compile Include="Models\LoginResponse.cs" />
     <Compile Include="Models\Pagination.cs" />

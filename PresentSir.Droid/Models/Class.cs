@@ -12,7 +12,7 @@ namespace PresentSir.Droid.Models
 
         public int GetId() => Id;
 
-        public string GetPrimaryText() => $"{Institution.ShortName} CourseCode";
+        public string GetPrimaryText() => $"{Institution.ShortName} - {CourseCode}";
     }
 
     public class Institution : ISearchable

@@ -127,7 +127,7 @@ namespace PresentSir.Web.Controllers.Api
         public HttpResponseMessage RegisterForClass(int studentId, int classId)
         {
             var existingStudent = ApplicationDbContext.Instance.Students.Include(x => x.User).FindById(studentId);
-            var existingClass = ApplicationDbContext.Instance.Classes.FindById(classId);
+            var existingClass = ApplicationDbContext.Instance.Classes.Include(x => x.Institution).FindById(classId);
 
             if (!ApplicationDbContext.Instance.RegisteredClasses.Include(x => x.Class).Exists(x => x.StudentId == studentId && x.Class.Id == classId))
             {

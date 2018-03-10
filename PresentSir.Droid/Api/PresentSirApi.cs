@@ -57,6 +57,12 @@ namespace PresentSir.Droid.Api
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
         }
 
+        internal void RemoveAuthorization()
+        {
+            this.token = null;
+            client.DefaultRequestHeaders.Remove("Authorization");
+        }
+
         public async Task<ApiResponse<LoginResponse>> LoginAsync(string username, string password)
         {
             try
@@ -161,7 +167,7 @@ namespace PresentSir.Droid.Api
         {
             try
             {
-                var response = await client.GetAsync($"{root}/classes/register/{studentId}/{classId}");
+                var response = await client.PostAsync($"{root}/classes/register/{studentId}/{classId}", null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -218,7 +224,7 @@ namespace PresentSir.Droid.Api
                 var response = await client.GetAsync($"{root}/classes?perPage=2147483647&pageNumber=1&name={name}");
 
                 if (response.IsSuccessStatusCode)
-                    return ResponseFromStream<List<Class>>(await response.Content.ReadAsStreamAsync());
+                    return ResponseFromStream<GetClassesResponse>(await response.Content.ReadAsStreamAsync())?.Data;
                 else
                     return new List<ISearchable>();
             }
@@ -249,7 +255,7 @@ namespace PresentSir.Droid.Api
         {
             try
             {
-                var response = await client.PostAsync($"{root}/sessions?action={action}&classId={classId}", null);
+                var response = await client.PostAsync($"{root}/session?action={action}&classId={classId}", null);
 
                 if (response.IsSuccessStatusCode)
                     return new ApiResponse<HttpStatusCode>(response.StatusCode, string.Empty);
@@ -283,7 +289,7 @@ namespace PresentSir.Droid.Api
         {
             try
             {
-                var response = await client.DeleteAsync($"{root}/attendance?perPage={perPage}&pageNumber={pageNumber}&classId={classId}&date={date}");
+                var response = await client.GetAsync($"{root}/attendance?perPage={perPage}&pageNumber={pageNumber}&classId={classId}&date={date}");
 
                 if (response.IsSuccessStatusCode)
                 {

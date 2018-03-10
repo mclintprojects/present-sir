@@ -29,7 +29,7 @@ namespace PresentSir.Droid.Activities
             classId = Intent.GetIntExtra("classId", 0);
             ShowAttendanceMarkingGuideDialog(classId);
 
-            FindViewById<TextView>(Resource.Id.ussdCodeTextView).Text = $"{AppResx.ServiceCode}*{{STUDENT_INDEX_NUMBER_HERE}}*{classId}";
+            FindViewById<TextView>(Resource.Id.ussdCodeTextView).Text = $"{AppResx.ServiceCode}*{{STUDENT_INDEX_NUMBER_HERE}}*{classId}#";
 
             loadingCircle = FindViewById<ProgressBar>(Resource.Id.loadingCircle);
             finishMarkingBtn = FindViewById<Button>(Resource.Id.finishMarking);
@@ -61,6 +61,22 @@ namespace PresentSir.Droid.Activities
         {
             loadingCircle.Visibility = ViewStates.Visible;
 
+            var response = await PresentSirApi.Instance.ManageSession("finish", classId);
+            if (response.Data == HttpStatusCode.OK)
+            {
+                finishMarkingBtn.Text = "Finish";
+                this.ShowPositiveDialog("Session end", "This marking sesssion has been successfully ended.");
+            }
+            else
+                this.ShowPositiveDialog("Session error", "Something went wrong ending this session.");
+
+            loadingCircle.Visibility = ViewStates.Gone;
+        }
+
+        private async void InitiateMarking()
+        {
+            loadingCircle.Visibility = ViewStates.Visible;
+
             var response = await PresentSirApi.Instance.ManageSession("start", classId);
             if (response.Data == HttpStatusCode.OK)
             {
@@ -73,29 +89,13 @@ namespace PresentSir.Droid.Activities
             loadingCircle.Visibility = ViewStates.Gone;
         }
 
-        private async void InitiateMarking()
-        {
-            loadingCircle.Visibility = ViewStates.Visible;
-
-            var response = await PresentSirApi.Instance.ManageSession("finish", classId);
-            if (response.Data == HttpStatusCode.OK)
-            {
-                finishMarkingBtn.Text = "Start";
-                this.ShowPositiveDialog("Session ended", "This marking sesssion has been successfully ended.");
-            }
-            else
-                this.ShowPositiveDialog("Session error", "Something went wrong ending this session.");
-
-            loadingCircle.Visibility = ViewStates.Gone;
-        }
-
         private void ShowAttendanceMarkingGuideDialog(int classId)
         {
             var message = new StringBuilder();
 
             message.AppendLine("Please write the following attendance code on a board for all registered students to mark their attendance.")
             .AppendLine()
-            .AppendLine($"{AppResx.ServiceCode}*{{STUDENT_INDEX_NUMBER_HERE}}*{classId}");
+            .AppendLine($"{AppResx.ServiceCode}*{{STUDENT_INDEX_NUMBER_HERE}}*{classId}#");
 
             this.ShowPositiveDialog("Mark attendance", message.ToString());
         }
