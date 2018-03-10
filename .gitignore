@@ -183,3 +183,15 @@ FakesAssemblies/
 
 .DS_Store
 .vs/Bolt-Web/v15/sqlite3/storage.ide
+
+#InelliJ Android Studio
+*.iml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+
