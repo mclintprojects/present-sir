@@ -186,12 +186,13 @@ FakesAssemblies/
 
 #InelliJ Android Studio
 *.iml
+PresentSir/.idea
 .gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
+PresentSir/local.properties
+PresentSir/.idea/workspace.xml
+PresentSir/.idea/libraries
 .DS_Store
-/build
-/captures
+PresentSir/build
+PresentSir/captures
 .externalNativeBuild
 
