@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">PresentSir</string>
+    <string name="action_settings">Settings</string>
+    <string name="signupText">Do not have an account?</string>
+    <string name="signUpButonText">Sign Up</string>
+    <string name="usernameEditTextHint">Enter Username</string>
+    <string name="passwordEditTextHint">Enter Password</string>
+    <string name="signupFullnameEditTextHint">Enter Fullname</string>
+    <string name="reenterPasswordEditTextHint">Re Enter Password</string>
+    <string name="IndexNumberEditText">Enter Student Index Number</string>
+    <string name="registerButtonText">Register</string>
+    <string name="tvRegisterText">Sign Up Here</string>
+    <string name="loginButtonText">LOGIN</string>
+    <string name="title_activity_student_home">StudentHomeActivity</string>
+</resources>
