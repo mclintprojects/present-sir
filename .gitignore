@@ -186,7 +186,7 @@ FakesAssemblies/
 
 #InelliJ Android Studio
 *.iml
-.idea
+PresentSir/.idea
 .gradle
 PresentSir/local.properties
 PresentSir/.idea/workspace.xml
