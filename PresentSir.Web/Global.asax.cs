@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using LiteDB;
+using PresentSir.Web.Utils;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -18,6 +16,20 @@ namespace PresentSir.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            var dbPath = Server.MapPath("~/App_Data/present-sir.db");
+            CreateDatabase(dbPath);
+
+            SeedDb();
+        }
+
+        private void SeedDb()
+        {
+        }
+
+        private void CreateDatabase(string dbPath)
+        {
+            ApplicationDbContext.Instance.SetDatabase(new LiteDatabase(dbPath));
         }
     }
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <style name="AppTheme" parent="BaseTheme">
+    <item name="windowActionModeOverlay">true</item>
+    <item name="android:windowBackground">@color/windowBg</item>
+  </style>
+
+  <style name="SplashTheme" parent="BaseTheme">
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowBackground">@drawable/splashscreen</item>
+  </style>
+
+  <style name="BaseTheme" parent="Theme.AppCompat.Light">
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="windowNoTitle">true</item>
+    <item name="windowActionBar">false</item>
+    <item name="android:backgroundDimEnabled">true</item>
+    <item name="android:windowDisablePreview">false</item>
+  </style>
+</resources>
