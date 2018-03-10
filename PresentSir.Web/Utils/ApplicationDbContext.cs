@@ -34,6 +34,8 @@ namespace PresentSir.Web.Utils
         public LiteCollection<Attendance> Attendance => database.GetCollection<Attendance>("attendance");
         public LiteCollection<Institution> Institutions => database.GetCollection<Institution>("institution");
         public LiteCollection<Class> Classes => database.GetCollection<Class>("class");
+        public LiteCollection<RegisteredClass> RegisteredClasses => database.GetCollection<RegisteredClass>("registeredclass");
+        public LiteCollection<MarkingSession> MarkingSessions => database.GetCollection<MarkingSession>("session");
 
         #endregion DBModels
 

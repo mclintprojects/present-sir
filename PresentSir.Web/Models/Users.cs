@@ -1,6 +1,5 @@
 ﻿using LiteDB;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Script.Serialization;
 
@@ -46,9 +45,6 @@ namespace PresentSir.Web.Models
 
         [BsonRef("user")]
         public ApplicationUser User { get; set; }
-
-        [BsonRef("class")]
-        public List<Class> RegisteredClasses { get; set; } = new List<Class>();
     }
 
     public enum AccountType

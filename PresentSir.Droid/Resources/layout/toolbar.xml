@@ -9,4 +9,4 @@
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     app:layout_scrollFlags="scroll|enterAlways"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-    app:titleTextColor="@color/white" />
+    android:textColorPrimary="#ffffff" />

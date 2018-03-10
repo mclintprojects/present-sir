@@ -16,6 +16,9 @@ namespace PresentSir.Web.Models
 
         [Required]
         public string CourseCode { get; set; }
+
+        [Required]
+        public int TeacherId { get; set; }
     }
 
     public class Institution

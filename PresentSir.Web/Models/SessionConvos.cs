@@ -16,5 +16,8 @@
 
         internal const string StudentAlreadyMarkedPresent =
             "Uhhh...you have already marked yourself present for this class.";
+
+        internal const string NoSessionInProgress =
+            "Sorry, this class is not currently marking attendance.";
     }
 }

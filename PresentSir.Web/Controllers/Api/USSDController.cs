@@ -26,7 +26,12 @@ namespace PresentSir.Web.Controllers.Api
                 var cleanText = text.Replace("#", string.Empty);
                 var data = cleanText.Split(new[] { '*' }, StringSplitOptions.RemoveEmptyEntries);
 
-                return MarkAttendance(data[0], int.Parse(data[1]));
+                var existingSession = ApplicationDbContext.Instance.MarkingSessions.FindOne(x => x.ClassId == int.Parse(data[1]));
+
+                if (existingSession != null)
+                    return MarkAttendance(data[0], int.Parse(data[1]));
+                else
+                    return MakeUSSDResponse(EndSession(SessionConvos.NoSessionInProgress));
             }
             catch (Exception e)
             {
@@ -37,11 +42,11 @@ namespace PresentSir.Web.Controllers.Api
         private HttpResponseMessage MarkAttendance(string studentIndexNumber, int classId)
         {
             // Need to fix the find one indexing error here
-            var student = ApplicationDbContext.Instance.Students.Include(x => x.User).Include(x => x.RegisteredClasses).FindAll().FirstOrDefault(x => x.User.IndexNumber == studentIndexNumber);
+            var student = ApplicationDbContext.Instance.Students.Include(x => x.User).FindAll().FirstOrDefault(x => x.User.IndexNumber == studentIndexNumber);
 
             if (student != null)
             {
-                var registeredClass = student.RegisteredClasses.FirstOrDefault(x => x.Id == classId);
+                var registeredClass = ApplicationDbContext.Instance.RegisteredClasses.Include(x => x.Class).FindOne(x => x.Class.Id == classId);
 
                 if (registeredClass != null)
                 {
@@ -59,7 +64,7 @@ namespace PresentSir.Web.Controllers.Api
 
                         ApplicationDbContext.Instance.Attendance.Insert(attendance);
 
-                        return MakeUSSDResponse(EndSession($"{SessionConvos.AttendanceMarked} for {registeredClass.CourseCode}."));
+                        return MakeUSSDResponse(EndSession($"{SessionConvos.AttendanceMarked} for {registeredClass.Class.CourseCode}."));
                     }
                     else
                         return MakeUSSDResponse(EndSession(SessionConvos.StudentAlreadyMarkedPresent));

@@ -61,7 +61,7 @@ namespace PresentSir.Droid {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://mclintprojects-001-site1.gtempurl.com/api/.
+        ///   Looks up a localized string similar to http://mclintprojects-001-site1.gtempurl.com/api.
         /// </summary>
         internal static string ApiRoot {
             get {
@@ -75,6 +75,15 @@ namespace PresentSir.Droid {
         internal static string NoInternetMessage {
             get {
                 return ResourceManager.GetString("NoInternetMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to *384*2381.
+        /// </summary>
+        internal static string ServiceCode {
+            get {
+                return ResourceManager.GetString("ServiceCode", resourceCulture);
             }
         }
         

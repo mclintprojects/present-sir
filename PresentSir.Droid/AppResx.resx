@@ -118,10 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ApiRoot" xml:space="preserve">
-    <value>http://mclintprojects-001-site1.gtempurl.com/api/</value>
+    <value>http://mclintprojects-001-site1.gtempurl.com/api</value>
   </data>
   <data name="NoInternetMessage" xml:space="preserve">
     <value>Couldn't load data. Please check your connection and retry.</value>
+  </data>
+  <data name="ServiceCode" xml:space="preserve">
+    <value>*384*2381</value>
   </data>
   <data name="SlowInternetMessage" xml:space="preserve">
     <value>Couldn't load data. Your connection might be too slow.</value>

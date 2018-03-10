@@ -1,7 +1,6 @@
 ﻿using PagedList;
 using PresentSir.Web.Models;
 using PresentSir.Web.Utils;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -27,10 +26,9 @@ namespace PresentSir.Web.Controllers.Api
             });
         }
 
-        public HttpResponseMessage GetClasses(int pageNumber, int perPage, string name)
+        public HttpResponseMessage GetClasses(int pageNumber, int perPage, int teacherId)
         {
-            var classes = ApplicationDbContext.Instance.Classes.Include(x => x.Institution)
-                .Find(x => x.Institution.Name.ToLower().Contains(name.ToLower())).ToPagedList(pageNumber, perPage);
+            var classes = ApplicationDbContext.Instance.Classes.Include(x => x.Institution).Find(x => x.TeacherId == teacherId).ToPagedList(pageNumber, perPage);
 
             return Request.CreateResponse(HttpStatusCode.OK, new
             {
@@ -44,13 +42,46 @@ namespace PresentSir.Web.Controllers.Api
             });
         }
 
+        public HttpResponseMessage GetClasses(int pageNumber, int perPage, string name)
+        {
+            if (name == null)
+            {
+                var classes = ApplicationDbContext.Instance.Classes.Include(x => x.Institution).FindAll().ToPagedList(pageNumber, perPage);
+                return Request.CreateResponse(HttpStatusCode.OK, new
+                {
+                    Data = classes,
+                    Pagination = new Pagination
+                    {
+                        HasNextPage = classes.HasNextPage,
+                        HasPreviousPage = classes.HasPreviousPage,
+                        PageNumber = classes.PageNumber
+                    }
+                });
+            }
+            else
+            {
+                var classes = ApplicationDbContext.Instance.Classes.Include(x => x.Institution).Find(x => x.CourseCode.ToLower().Contains(name.ToLower()))?.ToPagedList(pageNumber, perPage);
+
+                return Request.CreateResponse(HttpStatusCode.OK, new
+                {
+                    Data = classes,
+                    Pagination = new Pagination
+                    {
+                        HasNextPage = classes.HasNextPage,
+                        HasPreviousPage = classes.HasPreviousPage,
+                        PageNumber = classes.PageNumber
+                    }
+                });
+            }
+        }
+
         public HttpResponseMessage PostClass([FromBody] Class @class)
         {
             if (ModelState.IsValid)
             {
                 var existingClass = ApplicationDbContext.Instance.Classes.
-                    FindOne(x => x.CourseCode.ToLower() == @class.CourseCode.ToLower() && x.InstitutionId == @class.InstitutionId);
-                if (existingClass != null)
+                    FindOne(x => x.CourseCode.ToLower() == @class.CourseCode.ToLower() && x.InstitutionId == @class.InstitutionId && x.TeacherId == @class.TeacherId);
+                if (existingClass == null)
                 {
                     @class.Institution = ApplicationDbContext.Instance.Institutions.FindOne(x => x.Id == @class.InstitutionId);
                     var classId = ApplicationDbContext.Instance.Classes.Insert(@class);
@@ -95,20 +126,23 @@ namespace PresentSir.Web.Controllers.Api
         [Route("api/classes/register/{studentId}/{classId}")]
         public HttpResponseMessage RegisterForClass(int studentId, int classId)
         {
-            var existingStudent = ApplicationDbContext.Instance.Students.Include(x => x.User).Include(x => x.RegisteredClasses).FindById(studentId);
+            var existingStudent = ApplicationDbContext.Instance.Students.Include(x => x.User).FindById(studentId);
             var existingClass = ApplicationDbContext.Instance.Classes.FindById(classId);
 
-            if (existingStudent != null & existingClass != null)
+            if (!ApplicationDbContext.Instance.RegisteredClasses.Include(x => x.Class).Exists(x => x.StudentId == studentId && x.Class.Id == classId))
             {
-                if (!existingStudent.RegisteredClasses.Any(x => x.Id == existingClass.Id))
-                    existingStudent.RegisteredClasses.Add(existingClass);
+                var registration = new RegisteredClass
+                {
+                    Class = existingClass,
+                    StudentId = studentId
+                };
 
-                ApplicationDbContext.Instance.Students.Update(existingStudent);
+                ApplicationDbContext.Instance.RegisteredClasses.Insert(registration);
 
-                return Request.CreateResponse(HttpStatusCode.OK, existingStudent);
+                return Request.CreateResponse(HttpStatusCode.OK, registration);
             }
-            else
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "A student or class with that id does not exist.");
+
+            return Request.CreateResponse(HttpStatusCode.NotFound);
         }
     }
 }

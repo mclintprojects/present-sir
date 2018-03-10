@@ -12,5 +12,15 @@ namespace PresentSir.Web.Controllers.Api
         {
             return Request.CreateResponse(HttpStatusCode.OK, ApplicationDbContext.Instance.Institutions.FindAll());
         }
+
+        public HttpResponseMessage GetInstitutions(string name)
+        {
+            if (name == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, ApplicationDbContext.Instance.Institutions.FindAll());
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, ApplicationDbContext.Instance.Institutions.Find(x => x.Name.ToLower().Contains(name.ToLower())));
+        }
     }
 }

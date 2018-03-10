@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/transparent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/emptyIcon"
+        android:layout_width="96dp"
+        android:layout_height="96dp" />
+
+    <TextView
+        android:id="@+id/stateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/primaryTextLight"
+        android:textSize="16sp"
+        tools:text="No item available"/>
+
+</LinearLayout>

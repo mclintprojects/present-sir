@@ -166,6 +166,9 @@
     <Compile Include="Controllers\Api\InstitutionsController.cs" />
     <Compile Include="Controllers\Api\LoginController.cs" />
     <Compile Include="Controllers\Api\RegisterController.cs" />
+    <Compile Include="Controllers\Api\RegisteredCourseController.cs" />
+    <Compile Include="Controllers\Api\SessionController.cs" />
+    <Compile Include="Controllers\Api\UserController.cs" />
     <Compile Include="Controllers\Api\USSDController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -177,7 +180,9 @@
     </Compile>
     <Compile Include="Models\Attendance.cs" />
     <Compile Include="Models\Class.cs" />
+    <Compile Include="Models\MarkingSession.cs" />
     <Compile Include="Models\Pagination.cs" />
+    <Compile Include="Models\RegisteredClass.cs" />
     <Compile Include="Models\SessionConvos.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Models\USSDRequest.cs" />

@@ -1,25 +1,25 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+using Alansa.Droid.Activities;
+using Alansa.Droid.Extensions;
+using Alansa.Droid.Utils;
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Alansa.Droid.Activities;
-using Alansa.Droid.Utils;
 using PresentSir.Droid.Api;
-using Alansa.Droid.Extensions;
+using PresentSir.Droid.Dialogs;
 using PresentSir.Droid.Models;
+using System;
 
 namespace PresentSir.Droid.Activities
 {
     [Activity(Label = "Login")]
     public class LoginActivity : BaseActivity
     {
+        private EditText etUsername;
+        private EditText etPassword;
+        private ProgressBar loadingCircle;
+
         public override int LayoutResource => Resource.Layout.activity_login;
 
         protected override bool HomeAsUpEnabled => false;
@@ -39,8 +39,9 @@ namespace PresentSir.Droid.Activities
                 signupBtnsRoot.Visibility = ViewStates.Visible;
             };
 
-            var etUsername = FindViewById<EditText>(Resource.Id.etUsername);
-            var etPassword = FindViewById<EditText>(Resource.Id.etPassword);
+            loadingCircle = FindViewById<ProgressBar>(Resource.Id.loadingCircle);
+            etUsername = FindViewById<EditText>(Resource.Id.etUsername);
+            etPassword = FindViewById<EditText>(Resource.Id.etPassword);
             var loginBtn = FindViewById<Button>(Resource.Id.btnLogin);
 
             loginBtn.Click += LoginBtn_Click;
@@ -48,15 +49,38 @@ namespace PresentSir.Droid.Activities
             var teacherSignupBtn = FindViewById<Button>(Resource.Id.teacherSignUpBtn);
             var studentSignupBtn = FindViewById<Button>(Resource.Id.studentSignUpBtn);
 
-            teacherSignupBtn.Click
+            teacherSignupBtn.Click += TeacherSignupBtn_Click;
+            studentSignupBtn.Click += StudentSignupBtn_Click;
+        }
+
+        private void StudentSignupBtn_Click(object sender, EventArgs e)
+        {
+            var dialog = new StudentSignUpDialog();
+            dialog.OnStudentRegistered += delegate
+            {
+                Toast.MakeText(this, "You have successfully signed up. Please login.", ToastLength.Long).Show();
+            };
+            dialog.Show(SupportFragmentManager, string.Empty);
+        }
+
+        private void TeacherSignupBtn_Click(object sender, EventArgs e)
+        {
+            var dialog = new TeacherSignUpDialog();
+            dialog.OnTeacherRegistered += delegate
+            {
+                Toast.MakeText(this, "You have successfully signed up. Please login.", ToastLength.Long).Show();
+            };
+            dialog.Show(SupportFragmentManager, string.Empty);
         }
 
         private void LoginBtn_Click(object sender, EventArgs e)
         {
+            loadingCircle.Visibility = ViewStates.Visible;
+
             using (var validator = new Validator())
             {
                 validator.ValidateIsNotEmpty(etUsername, true);
-                validator.ValidateIsNotEmpty(etPassword);
+                validator.ValidateIsNotEmpty(etPassword, true);
 
                 if (validator.PassedValidation)
                 {
@@ -78,6 +102,10 @@ namespace PresentSir.Droid.Activities
                 else
                     StartActivity(new Intent(this, typeof(TeacherHomeActivity)));
             }
+            else
+                this.ShowPositiveDialog("Error", response.ErrorMessage);
+
+            loadingCircle.Visibility = ViewStates.Gone;
         }
     }
 }
