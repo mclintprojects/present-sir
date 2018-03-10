@@ -46,8 +46,6 @@ namespace PresentSir.Droid.Activities
             else
             {
                 FinishMarking();
-                endedMarking = true;
-                NavigateAway();
             }
         }
 
@@ -64,8 +62,8 @@ namespace PresentSir.Droid.Activities
             var response = await PresentSirApi.Instance.ManageSession("finish", classId);
             if (response.Data == HttpStatusCode.OK)
             {
-                finishMarkingBtn.Text = "Finish";
-                this.ShowPositiveDialog("Session end", "This marking sesssion has been successfully ended.");
+                endedMarking = true;
+                NavigateAway();
             }
             else
                 this.ShowPositiveDialog("Session error", "Something went wrong ending this session.");

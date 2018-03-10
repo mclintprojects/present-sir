@@ -59,10 +59,10 @@ namespace PresentSir.Droid.Dialogs
                     var newUser = new ApplicationUser
                     {
                         AccountType = AccountType.Student,
-                        FullName = fullnameTb.Text,
-                        Password = passwordTb.Text,
-                        Username = usernameTb.Text,
-                        IndexNumber = indexNoTb.Text
+                        FullName = fullnameTb.Text.Trim(),
+                        Password = passwordTb.Text.Trim(),
+                        Username = usernameTb.Text.Trim(),
+                        IndexNumber = indexNoTb.Text.Trim()
                     };
 
                     var response = await PresentSirApi.Instance.RegisterAsync(newUser);

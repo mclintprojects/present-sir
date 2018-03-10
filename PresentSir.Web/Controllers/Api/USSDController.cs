@@ -59,7 +59,7 @@ namespace PresentSir.Web.Controllers.Api
                         {
                             ClassDate = DateTime.Now,
                             Student = student,
-                            ClassId = registeredClass.Id
+                            ClassId = registeredClass.Class.Id
                         };
 
                         ApplicationDbContext.Instance.Attendance.Insert(attendance);

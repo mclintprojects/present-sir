@@ -12,18 +12,22 @@ namespace PresentSir.Web.Controllers.Api
         [HttpPost]
         public HttpResponseMessage ControlSession(string action, int classId)
         {
+            var session = ApplicationDbContext.Instance.MarkingSessions.FindOne(x => x.ClassId == classId);
             if (action == "start")
             {
-                ApplicationDbContext.Instance.MarkingSessions.Insert(new MarkingSession
+                if (session == null)
                 {
-                    ClassId = classId
-                });
+                    ApplicationDbContext.Instance.MarkingSessions.Insert(new MarkingSession
+                    {
+                        ClassId = classId
+                    });
+                }
 
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
             else if (action == "finish")
             {
-                var deleted = ApplicationDbContext.Instance.MarkingSessions.Delete(classId);
+                var deleted = ApplicationDbContext.Instance.MarkingSessions.Delete(session.Id);
 
                 if (deleted)
                     return Request.CreateResponse(HttpStatusCode.OK);

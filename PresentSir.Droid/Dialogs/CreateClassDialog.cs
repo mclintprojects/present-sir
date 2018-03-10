@@ -47,7 +47,7 @@ namespace PresentSir.Droid.Dialogs
                     {
                         var newClass = new Class
                         {
-                            CourseCode = courseCodeTb.Text,
+                            CourseCode = courseCodeTb.Text.Trim(),
                             InstitutionId = institutionSearchView.SelectedItemId.Value,
                             TeacherId = teacherId
                         };

@@ -84,7 +84,7 @@ namespace PresentSir.Droid.Activities
 
                 if (validator.PassedValidation)
                 {
-                    LoginUser(etUsername.Text, etPassword.Text);
+                    LoginUser(etUsername.Text.Trim(), etPassword.Text.Trim());
                 }
             }
         }

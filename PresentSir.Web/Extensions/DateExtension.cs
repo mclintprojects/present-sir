@@ -6,7 +6,9 @@ namespace PresentSir.Web.Extensions
     {
         public static bool IsSameDay(this DateTime date, DateTime otherDate)
         {
-            return (date.ToShortDateString() == otherDate.ToShortDateString());
+            var date1 = $"{date.Day}/{date.Month}/{date.Year}";
+            var date2 = $"{otherDate.Day}/{otherDate.Month}/{otherDate.Year}";
+            return (date1 == date2);
         }
     }
 }
