@@ -38,7 +38,7 @@ To begin, you can download the Present Sir android apk via the link below.
 
 _NB: Only runs on Android 4.4 (Kitkat) and above._
 
-> [Download apk file](https://drive.google.com/open?id=1XzqR9Dvq62W937nKrzF-pSXbBeGCYAyd)
+> [Download apk file](https://doc-0g-3g-docs.googleusercontent.com/docs/securesc/ha0ro937gcuc7l7deffksulhg5h7mbp1/gskd868nqsuka5iabqp36is0b3a3d2bp/1520762400000/04851421854738192448/*/1XzqR9Dvq62W937nKrzF-pSXbBeGCYAyd?e=download)
 
 ### Signing in
 
