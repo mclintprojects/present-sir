@@ -3,6 +3,7 @@ using Alansa.Droid.Extensions;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Support.Design.Widget;
 using Android.Views;
 using Android.Widget;
 using PresentSir.Droid.Api;
@@ -18,7 +19,7 @@ namespace PresentSir.Droid.Activities
         private int classId;
 
         public override int LayoutResource => Resource.Layout.activity_mark_attendance;
-        private bool initiatedMarking, endedMarking;
+        private bool initiatedMarking;
         private ProgressBar loadingCircle;
         private Button finishMarkingBtn;
 
@@ -41,7 +42,6 @@ namespace PresentSir.Droid.Activities
             if (!initiatedMarking)
             {
                 InitiateMarking();
-                initiatedMarking = true;
             }
             else
             {
@@ -51,8 +51,10 @@ namespace PresentSir.Droid.Activities
 
         public override void NavigateAway()
         {
-            if (endedMarking)
+            if (!initiatedMarking)
                 base.NavigateAway();
+            else
+                Snackbar.Make(finishMarkingBtn, "You need to finish this marking session.", Snackbar.LengthLong).Show();
         }
 
         private async void FinishMarking()
@@ -62,7 +64,7 @@ namespace PresentSir.Droid.Activities
             var response = await PresentSirApi.Instance.ManageSession("finish", classId);
             if (response.Data == HttpStatusCode.OK)
             {
-                endedMarking = true;
+                initiatedMarking = false;
                 NavigateAway();
             }
             else
@@ -78,6 +80,7 @@ namespace PresentSir.Droid.Activities
             var response = await PresentSirApi.Instance.ManageSession("start", classId);
             if (response.Data == HttpStatusCode.OK)
             {
+                initiatedMarking = true;
                 finishMarkingBtn.Text = "Finish";
                 this.ShowPositiveDialog("Session started", "This marking sesssion has been successfully started.");
             }
